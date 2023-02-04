@@ -13,14 +13,16 @@ const port = 3000;
 const routerNavigation = require("./src/routes");
 
 // middleware
-app.use(express.static("public"));
 app.use(morgan("dev"));
+app.use(cors());
 app.use(helmet());
 app.use(xss());
-app.use(cors());
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
 app.use(compression());
+app.use(bodyParser.urlencoded({ extended: false }));
+// app.use(bodyParser.json());
+app.use(bodyParser.json());
+app.use(express.static("public"));
+app.options("*", cors());
 
 app.use("/", routerNavigation);
 

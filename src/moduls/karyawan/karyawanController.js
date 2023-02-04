@@ -26,4 +26,54 @@ module.exports = {
       helperWrapper.response(response, 400, "bad request", null);
     }
   },
+
+  updateKaryawanById: async (request, response) => {
+    try {
+      const { id } = request.params;
+      console.log(id);
+      console.log(request.body);
+      console.log(request.file);
+
+      const cekId = await karyawanModel.getKaryawanById(id);
+
+      if (cekId.length <= 0) {
+        console.log(cekId.length);
+        return helperWrapper.response(
+          response,
+          404,
+          `Data by id ${id} not found`,
+          null
+        );
+      }
+
+      const { mimetype } = request.file;
+      let { filename } = request.file;
+
+      if (mimetype === "image/jpeg") {
+        filename += ".jpg";
+      } else if (mimetype === "image/png") {
+        filename += ".png";
+      }
+
+      const { fullName, password, nickname } = request.body;
+
+      const setData = {
+        fullName,
+        password,
+        nickname,
+        image: filename,
+        updateAt: new Date(Date.now()),
+      };
+
+      for (const data in setData) {
+        if (!setData[data]) {
+          console.log(setData[data]);
+          // delete setData[data];
+        }
+      }
+    } catch (error) {
+      console.log(error);
+      helperWrapper.response(response, 400, "bad request", null);
+    }
+  },
 };
