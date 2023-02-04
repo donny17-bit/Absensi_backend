@@ -24,10 +24,6 @@ app.use(compression());
 
 app.use("/", routerNavigation);
 
-// app.get("/", async (req, res) => {
-//   return res.send("Hello World!");
-// });
-
 app.get("/hello", (req, res) => {
   res.status(200);
   res.send("Hello World!");
@@ -40,3 +36,5 @@ app.use("/*", (request, response) => {
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
 });
+
+module.exports = app;
