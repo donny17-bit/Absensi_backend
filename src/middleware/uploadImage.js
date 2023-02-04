@@ -1,16 +1,27 @@
 const multer = require("multer");
+const cloudinary = require("../config/cloudinary");
+const { CloudinaryStorage } = require("multer-storage-cloudinary");
+const helperWrapper = require("../helpers/wrapper");
 
-const storage = multer.diskStorage({
-  destination(request, file, cb) {
-    cb(null, "public/karyawan");
-  },
-  filename(request, file, cb) {
-    cb(null, new Date().toISOString().replace(/:/g, "-") + file.originalname);
+const storage = new CloudinaryStorage({
+  cloudinary,
+  params: {
+    folder: "absensiKaryawan/karyawan",
   },
 });
 
 const upload = multer({
   storage,
+  fileFilter(request, file, callback) {
+    const { mimetype } = file;
+    if (mimetype !== "image/png" && mimetype !== "image/jpeg") {
+      return callback(new Error("File harus berekstensi png atau jpg"));
+    }
+    return callback(null, true);
+  },
+  limits: {
+    fileSize: 1024000,
+  },
 }).single("image");
 
 const handlingUpload = (request, response, next) => {
@@ -24,7 +35,6 @@ const handlingUpload = (request, response, next) => {
       // An unknown error occurred when uploading.
     }
   });
-
   return next();
 };
 
