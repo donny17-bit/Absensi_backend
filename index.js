@@ -7,7 +7,7 @@ const compression = require("compression");
 const bodyParser = require("body-parser");
 
 const app = express();
-const port = 3306;
+const port = 3000;
 
 // routes --
 const routerNavigation = require("./src/routes");
@@ -22,12 +22,11 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(compression());
 
-// app.use("/", routerNavigation);
+app.use("/", routerNavigation);
 
-app.get("/", async (req, res) => {
-  res.status(200);
-  res.send("Hello World!");
-});
+// app.get("/", async (req, res) => {
+//   return res.send("Hello World!");
+// });
 
 app.get("/hello", (req, res) => {
   res.status(200);
