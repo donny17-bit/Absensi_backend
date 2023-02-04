@@ -1,0 +1,12 @@
+db4free
+nama databse : absensi_karyawan
+username : project_absensi
+password : absensi1
+email : doniwahyu14@gmail.com
+hostname :  db4free.net
+port : 3306
+
+000webhost
+db name : absensi_db
+username : absensi
+$oi8xzrEN3JYlIjR

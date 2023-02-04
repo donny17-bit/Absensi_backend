@@ -1,10 +1,10 @@
 const mySql = require("mysql2");
 
 const connection = mySql.createConnection({
-  host: "127.0.0.1",
-  user: "postgres",
-  password: "123456789",
-  database: "absensi",
+  host: "db4free.net",
+  user: "project_absensi",
+  password: "absensi1",
+  database: "absensi_karyawan",
 });
 
 connection.connect((error) => {
