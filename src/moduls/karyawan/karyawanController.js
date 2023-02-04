@@ -31,8 +31,9 @@ module.exports = {
     try {
       const { id } = request.params;
       console.log(id);
-      console.log(request.body);
-      console.log(request.file);
+      // console.log(request.body);
+      // console.log(request.file);
+      // console.log(request.file.data);
 
       const cekId = await karyawanModel.getKaryawanById(id);
 
@@ -67,7 +68,7 @@ module.exports = {
 
       for (const data in setData) {
         if (!setData[data]) {
-          console.log(setData[data]);
+          // console.log(setData[data]);
           // delete setData[data];
         }
       }
