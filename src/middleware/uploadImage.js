@@ -34,8 +34,8 @@ const handlingUpload = (request, response, next) => {
       return helperWrapper.response(response, 401, error.message, null);
       // An unknown error occurred when uploading.
     }
+    return next();
   });
-  return next();
 };
 
 module.exports = handlingUpload;

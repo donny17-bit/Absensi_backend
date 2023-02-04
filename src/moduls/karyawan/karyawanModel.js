@@ -26,4 +26,22 @@ module.exports = {
         }
       );
     }),
+  updateKaryawan: (data, id) =>
+    new Promise((resolve, reject) => {
+      connection.query(
+        "UPDATE karyawan SET ? WHERE id = ?",
+        [data, id],
+        (error) => {
+          if (!error) {
+            const newResult = {
+              id,
+              ...data,
+            };
+            resolve(newResult);
+          } else {
+            reject(new Error(error.sqlMessage));
+          }
+        }
+      );
+    }),
 };

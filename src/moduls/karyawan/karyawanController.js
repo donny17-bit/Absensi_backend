@@ -1,6 +1,6 @@
 // const redis = require("../../config/redis");
 const helperWrapper = require("../../helpers/wrapper");
-// const cloudinary = require("../../config/cloudinary");
+const cloudinary = require("../../config/cloudinary");
 const karyawanModel = require("./karyawanModel");
 
 module.exports = {
@@ -30,11 +30,6 @@ module.exports = {
   updateKaryawanById: async (request, response) => {
     try {
       const { id } = request.params;
-      console.log(id);
-      // console.log(request.body);
-      // console.log(request.file);
-      // console.log(request.file.data);
-
       const cekId = await karyawanModel.getKaryawanById(id);
 
       if (cekId.length <= 0) {
@@ -63,15 +58,34 @@ module.exports = {
         password,
         nickname,
         image: filename,
-        updateAt: new Date(Date.now()),
+        updatedAt: new Date(Date.now()),
       };
 
+      // cek apakah di request ada yg kosong tidak, jika iya maka dihapus
+      // untuk diupdate yang hanya ada isinya saja, dan agar tidak error di model
       for (const data in setData) {
         if (!setData[data]) {
-          // console.log(setData[data]);
-          // delete setData[data];
+          delete setData[data];
         }
       }
+
+      // cek and delete current image in cloudinary
+      const { image } = cekId[0];
+
+      if (image) {
+        cloudinary.uploader.destroy(image.slice(0, image.length - 4), () => {
+          console.log("data has been deleted in cloudinary");
+        });
+      }
+
+      const result = await karyawanModel.updateKaryawan(setData, id);
+
+      return helperWrapper.response(
+        response,
+        200,
+        "sukses update data",
+        result
+      );
     } catch (error) {
       console.log(error);
       helperWrapper.response(response, 400, "bad request", null);
