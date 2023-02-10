@@ -17,13 +17,46 @@ module.exports = {
   getKaryawanById: async (request, response) => {
     try {
       const { id } = request.params;
-      console.log(request.params);
 
       const result = await karyawanModel.getKaryawanById(id);
       return helperWrapper.response(response, 200, "sukses get data", result);
     } catch (error) {
       console.log(error);
       helperWrapper.response(response, 400, "bad request", null);
+    }
+  },
+
+  createKaryawan: async (request, response) => {
+    try {
+      const { email, password, fullName, nickname } = request.body;
+      const cekEmail = await karyawanModel.getKaryawanByEmail(email);
+
+      if (cekEmail.length > 0) {
+        return helperWrapper.response(
+          response,
+          404,
+          `Data with email ${email} already existed`,
+          null
+        );
+      }
+
+      const setData = {
+        email,
+        password,
+        fullName,
+        nickname,
+      };
+
+      const result = await karyawanModel.createKaryawan(setData);
+
+      return helperWrapper.response(
+        response,
+        200,
+        "Success create data karyawan",
+        result
+      );
+    } catch (error) {
+      helperWrapper.response(response, 400, "bad request", error.message);
     }
   },
 

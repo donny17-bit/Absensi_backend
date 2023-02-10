@@ -26,6 +26,20 @@ module.exports = {
         }
       );
     }),
+  getKaryawanByEmail: (email) =>
+    new Promise((resolve, reject) => {
+      connection.query(
+        "SELECT * FROM karyawan WHERE email = ?",
+        email,
+        (error, result) => {
+          if (!error) {
+            resolve(result);
+          } else {
+            reject(new Error(error.sqlMessage));
+          }
+        }
+      );
+    }),
   updateKaryawan: (data, id) =>
     new Promise((resolve, reject) => {
       connection.query(
@@ -43,5 +57,19 @@ module.exports = {
           }
         }
       );
+    }),
+  createKaryawan: (data) =>
+    new Promise((resolve, reject) => {
+      connection.query("INSERT INTO karyawan SET ?", data, (error, result) => {
+        if (!error) {
+          const newResult = {
+            id: result.insertId,
+            ...data,
+          };
+          resolve(newResult);
+        } else {
+          reject(new Error(error.sqlMessage));
+        }
+      });
     }),
 };
