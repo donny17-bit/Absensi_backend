@@ -25,6 +25,7 @@ const upload = multer({
 }).single("image");
 
 const handlingUpload = (request, response, next) => {
+  // console.log(request.file);
   upload(request, response, (error) => {
     if (error instanceof multer.MulterError) {
       return helperWrapper.response(response, 401, error.message, null);

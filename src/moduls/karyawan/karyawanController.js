@@ -75,13 +75,19 @@ module.exports = {
         );
       }
 
-      const { mimetype } = request.file;
-      let { filename } = request.file;
+      let filename;
 
-      if (mimetype === "image/jpeg") {
-        filename += ".jpg";
-      } else if (mimetype === "image/png") {
-        filename += ".png";
+      if (request.file) {
+        const { mimetype } = request.file;
+        filename = request.file.filename;
+
+        if (mimetype === "image/jpeg") {
+          filename += ".jpg";
+        } else if (mimetype === "image/png") {
+          filename += ".png";
+        }
+      } else {
+        filename = "";
       }
 
       const { fullName, password, nickname } = request.body;
@@ -102,13 +108,15 @@ module.exports = {
         }
       }
 
-      // cek and delete current image in cloudinary
-      const { image } = cekId[0];
+      if (request.file) {
+        const { image } = cekId[0];
 
-      if (image) {
-        cloudinary.uploader.destroy(image.slice(0, image.length - 4), () => {
-          console.log("data has been deleted in cloudinary");
-        });
+        // cek and delete current image in cloudinary
+        if (image) {
+          cloudinary.uploader.destroy(image.slice(0, image.length - 4), () => {
+            console.log("data has been deleted in cloudinary");
+          });
+        }
       }
 
       const result = await karyawanModel.updateKaryawan(setData, id);
@@ -120,8 +128,7 @@ module.exports = {
         result
       );
     } catch (error) {
-      console.log(error);
-      helperWrapper.response(response, 400, "bad request", null);
+      helperWrapper.response(response, 400, "bad request", error.message);
     }
   },
 };
