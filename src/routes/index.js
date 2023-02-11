@@ -5,6 +5,6 @@ const karyawanRoutes = require("../moduls/karyawan/karyawanRoutes");
 const tanggalRoutes = require("../moduls/tanggal/tanggalRoutes");
 
 Router.use("/karyawan", karyawanRoutes);
-Router.use("/tanggal", tanggalRoutes);
+Router.use("/absensi", tanggalRoutes);
 
 module.exports = Router;

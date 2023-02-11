@@ -15,4 +15,18 @@ module.exports = {
         }
       );
     }),
+  createAbsensi: (data) =>
+    new Promise((resolve, reject) => {
+      connection.query("INSERT INTO tanggal SET ?", data, (error, result) => {
+        if (!error) {
+          const newResult = {
+            id: result.insertId,
+            ...data,
+          };
+          resolve(newResult);
+        } else {
+          reject(new Error(error.sqlMessage));
+        }
+      });
+    }),
 };
