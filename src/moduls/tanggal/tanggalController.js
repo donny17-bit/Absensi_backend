@@ -67,7 +67,7 @@ module.exports = {
       const date = new Date();
 
       if (!tanggal) {
-        tanggal = `${date.getFullYear()}-${
+        tanggal = `${date.getFullYear()}-0${
           date.getMonth() + 1
         }-${date.getDate()}`;
       }

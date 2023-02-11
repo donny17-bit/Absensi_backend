@@ -60,7 +60,7 @@ module.exports = {
   updateAbsensi: (data, idKaryawan, tanggal) =>
     new Promise((resolve, reject) => {
       connection.query(
-        `UPDATE tanggal SET ? WHERE idKaryawan = ? AND tanggal = '?'`,
+        `UPDATE tanggal SET ? WHERE idKaryawan = ? AND tanggal = ?`,
         [data, idKaryawan, tanggal],
         (error) => {
           if (!error) {
