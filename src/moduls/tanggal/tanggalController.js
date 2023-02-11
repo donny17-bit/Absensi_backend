@@ -13,6 +13,19 @@ module.exports = {
       helperWrapper.response(response, 400, "bad request", error.message);
     }
   },
+  getTanggalByIdAndTgl: async (request, response) => {
+    try {
+      const { idKaryawan, tanggal } = request.query;
+
+      const result = await tanggalModel.getTanggalByTanggal(
+        tanggal,
+        idKaryawan
+      );
+      return helperWrapper.response(response, 200, "sukses get data", result);
+    } catch (error) {
+      helperWrapper.response(response, 400, "bad request", error.message);
+    }
+  },
   createAbsensi: async (request, response) => {
     try {
       const { id } = request.params;

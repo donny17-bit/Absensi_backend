@@ -15,11 +15,25 @@ module.exports = {
         }
       );
     }),
+  // getTanggalByMonth: (tanggal, idKaryawan) =>
+  //   new Promise((resolve, reject) => {
+  //     connection.query(
+  //       "SELECT * FROM tanggal WHERE tanggal = ? AND idKaryawan = ?",
+  //       [tanggal, idKaryawan],
+  //       (error, result) => {
+  //         if (!error) {
+  //           resolve(result);
+  //         } else {
+  //           reject(new Error(error.sqlMessage));
+  //         }
+  //       }
+  //     );
+  //   }),
   getTanggalByTanggal: (tanggal, idKaryawan) =>
     new Promise((resolve, reject) => {
       connection.query(
-        "SELECT * FROM tanggal WHERE tanggal = ? AND idKaryawan = ?",
-        [tanggal, idKaryawan],
+        `SELECT * FROM tanggal WHERE tanggal LIKE '${tanggal}%' AND idKaryawan = ?`,
+        idKaryawan,
         (error, result) => {
           if (!error) {
             resolve(result);
@@ -46,7 +60,7 @@ module.exports = {
   updateAbsensi: (data, idKaryawan, tanggal) =>
     new Promise((resolve, reject) => {
       connection.query(
-        "UPDATE tanggal SET ? WHERE idKaryawan = ? AND tanggal = ?",
+        `UPDATE tanggal SET ? WHERE idKaryawan = ? AND tanggal = '?'`,
         [data, idKaryawan, tanggal],
         (error) => {
           if (!error) {
