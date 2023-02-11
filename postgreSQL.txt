@@ -1,6 +1,0 @@
-postgreSQL 
-password = 123456789
-master password = 123456789
-
-hostname = 127.0.0.1
-pass : sama

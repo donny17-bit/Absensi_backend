@@ -1,3 +1,0 @@
-mongoDB
-user : root 
-password : root123456789
